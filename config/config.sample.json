@@ -1,0 +1,40 @@
+{
+    "token": "discord-token",
+    "clientId": "bot-id",
+	"guildId": "discord-server-id",
+    "openAIKey": "open-ai-key",
+    "channelSetting": {
+        "channel-id-1": {
+            "channelName": "general",
+            "chatHistoryMaxLength": 1500,
+            "onlyListenTagMessage": true,
+            "onlyReplyTagMessage": true,
+            "replyWithTag": true,
+            "bot": "assistant",
+            "completionSetting": {
+                "model": "gpt-3.5-turbo-0301",
+                "temperature": 0.6,
+                "max_tokens": 500,
+                "top_p": 1,
+                "frequency_penalty": 0.6,
+                "presence_penalty": 0.6
+            }
+        },
+        "channel-id-2": {
+            "channelName": "code",
+            "chatHistoryMaxLength": 1500,
+            "onlyListenTagMessage": false,
+            "onlyReplyTagMessage": false,
+            "replyWithTag": false,
+            "bot": "code_assistant",
+            "completionSetting": {
+                "model": "gpt-3.5-turbo-0301",
+                "temperature": 0.6,
+                "max_tokens": 500,
+                "top_p": 1,
+                "frequency_penalty": 0.6,
+                "presence_penalty": 0.6
+            }
+        }
+    }
+}
