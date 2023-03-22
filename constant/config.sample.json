@@ -5,7 +5,7 @@
     "openAIKey": "open-ai-key",
     "channelSetting": {
         "channel-id-1": {
-            "channelName": "general",
+            "channelNameForRef": "general",
             "chatHistoryMaxLength": 1500,
             "onlyListenTagMessage": true,
             "onlyReplyTagMessage": true,
@@ -21,7 +21,7 @@
             }
         },
         "channel-id-2": {
-            "channelName": "code",
+            "channelNameForRef": "code",
             "chatHistoryMaxLength": 1500,
             "onlyListenTagMessage": false,
             "onlyReplyTagMessage": false,

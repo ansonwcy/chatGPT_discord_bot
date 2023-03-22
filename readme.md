@@ -20,13 +20,7 @@
 
 <br />
 
-## Step 2. Modify/create the files below
-1. `bot_system.yml`
-2. `config.json`
-
-<br />
-
-## Step 3. Install dependencies
+## Step 2. Install dependencies
 
 ```
 npm i
@@ -34,7 +28,21 @@ npm i
 
 <br />
 
-## Deploy commands and start server on local
+## Step 3. Run prestart script to create necessary files (if first time to run)
+
+```
+npm run prestart
+```
+
+<br />
+
+## Step 4. Modify the files below
+1. `config/bot.yml`
+2. `config/config.json`
+
+<br />
+
+## Deploy commands and start server
 
 ```
 npm start
@@ -42,25 +50,9 @@ npm start
 
 <br />
 
-## Deploy commands
-```
-node deploy-commands.js
-```
-
-<br />
-
-## Start server on local
-```
-node index.js
-```
-
-<br />
-
 ## Todo:
 
-1. Channel function config. User config the chatbot function in different channels.
+1. Create DB to store message.
 
-2. Create DB to store message.
-
-3. Voice chat. Includes text to voice and voice to text.
+2. Voice chat. Includes text to voice and voice to text.
 

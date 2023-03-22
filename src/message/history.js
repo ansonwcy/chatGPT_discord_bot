@@ -20,7 +20,7 @@ const setHistory = async (history, channelId, isReset) => {
             } else {
                 let yamlData, systemMsg;
                 try {
-                    yamlData = yaml.load(fs.readFileSync(path.join(__dirname, '../../config/bot_system.yml'), 'utf8'));
+                    yamlData = yaml.load(fs.readFileSync(path.join(__dirname, '../../config/bot.yml'), 'utf8'));
                     let bot_name = channelSetting[channelId]["bot"]
                     systemMsg = formatMsg(yamlData[bot_name], "system");
                 } catch (err) {
