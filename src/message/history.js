@@ -1,8 +1,8 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
-const chatHistory = require('../../data/chat_history.json');
-const { channelSetting } = require('../../config/config.json');
+const chatHistory = require('../data/chat_history.json');
+const { channelSetting } = require('../config/config.json');
 const { formatMsg } = require('./pre-post-processer.js')
 
 const setHistory = async (history, channelId, isReset) => {
@@ -20,7 +20,7 @@ const setHistory = async (history, channelId, isReset) => {
             } else {
                 let yamlData, systemMsg;
                 try {
-                    yamlData = yaml.load(fs.readFileSync(path.join(__dirname, '../../config/bot.yml'), 'utf8'));
+                    yamlData = yaml.load(fs.readFileSync(path.join(__dirname, '../config/bot.yml'), 'utf8'));
                     let bot_name = channelSetting[channelId]["bot"]
                     systemMsg = formatMsg(yamlData[bot_name], "system");
                 } catch (err) {
@@ -39,7 +39,7 @@ const setHistory = async (history, channelId, isReset) => {
 
             // Write the updated JSON string back to the file
             resolve(new Promise((resolve, reject) => {
-                fs.writeFile(path.join(__dirname, '../../data/chat_history.json'), updatedData, 'utf8', (err) => {
+                fs.writeFile(path.join(__dirname, '../data/chat_history.json'), updatedData, 'utf8', (err) => {
                     if (err) {
                         reject(err);
                     } else {

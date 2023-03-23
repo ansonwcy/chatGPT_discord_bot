@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config/config.json');
-const { messageEventHandler } = require('./src/message/event-handler.js')
+const { messageEventHandler } = require('./message/event-handler.js')
 
 const client = new Client({
 	partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
@@ -14,7 +14,7 @@ const client = new Client({
 });
 client.commands = new Collection();
 
-const commandsPath = path.join(__dirname, './src/commands');
+const commandsPath = path.join(__dirname, './commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {

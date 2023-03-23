@@ -1,5 +1,5 @@
 const { messageListen, messageCreate } = require('./processer')
-const { channelSetting, clientId } = require('../../config/config.json');
+const { channelSetting, clientId } = require('../config/config.json');
 const botTag = `<@${clientId}>`;
 
 const messageEventHandler = async (message) => {

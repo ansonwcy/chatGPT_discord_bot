@@ -12,10 +12,12 @@
     "ytdl-core": "^4.11.2"
   },
   "devDependencies": {
-    "ts-morph": "^17.0.1"
+    "@types/node": "^18.15.5",
+    "typescript": "^5.0.2"
   },
   "scripts": {
-    "prestart": "node prestart.js",
-    "start": "node prestart.js && node deploy-commands.js && node index.js"
+    "prestart": "node ./src/prestart.js",
+    "build": "tsc",
+    "start": "node ./src/prestart.js && node ./src/deploy-commands.js && node ./src/index.js"
   }
 }

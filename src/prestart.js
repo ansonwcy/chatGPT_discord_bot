@@ -1,8 +1,8 @@
 const fs = require('fs');
 
-const constDir = './constant'
-const dataDir = './data';
-const configDir = './config';
+const constDir = __dirname + '/constant'
+const dataDir = __dirname + '/data';
+const configDir = __dirname + '/config';
 
 // create data directory
 if (!fs.existsSync(dataDir)) {

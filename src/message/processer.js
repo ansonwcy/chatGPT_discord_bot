@@ -1,4 +1,4 @@
-const { clientId, channelSetting } = require('../../config/config.json');
+const { clientId, channelSetting } = require('../config/config.json');
 const { createChatCompletion } = require('../openAI/chat.js');
 const { postprocesser, preprocesser, addNameTag, formatMsg, removeAllTags } = require('./pre-post-processer.js')
 const { setHistory, getHistory } = require('./history.js')
