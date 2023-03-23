@@ -8,10 +8,10 @@ module.exports = {
 	async execute(interaction) {
         await resetMemory(interaction.channelId).then(async (result) => {
             if (result) {
-                await interaction.reply('Memory reset!');
+                await interaction.reply(`\`\`\`Memory reset!\`\`\``);
             } else {
                 console.log(`Error in resetMemory`);
-                await interaction.reply('Something went wrong');
+                await interaction.reply(`\`\`\`Something went wrong!\`\`\``);
             }
         });
 	},
