@@ -54,6 +54,13 @@ npm run build
 npm start
 ```
 
+<br />
+
+## (Step 7). Store the chat history after terminating the server if need
+```
+npm run store
+```
+
 ## Todo:
 
 1. Create DB to store message.
