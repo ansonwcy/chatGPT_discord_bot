@@ -9,11 +9,11 @@ export interface ChatCompletion {
 
 export interface ChannelSettings {
     channelName: string;
-    chatHistoryMaxLength: number;
+    chatHistoryMaxLength: number | null;
     onlyListenTagMessage: boolean;
     onlyReplyTagMessage: boolean;
     replyWithTag: boolean;
-    bot: string;
+    bot: string | null;
     completionSetting: ChatCompletion;
 }
 

@@ -1,31 +1,48 @@
-import { messageListen, messageCreate } from './processer';
+import { listenChatMessage, createChatMessage, createMessage } from './processer';
 import * as config from '../config/config.json';
 import { Config } from '../type'
+import { Message } from 'discord.js'
 
 const channelSetting = (config as Config).channelSetting;
 const clientId = (config as Config).clientId;
-
 const botTag = `<@${clientId}>`;
 
-const messageEventHandler = async (message: any): Promise<void> => {
-  let listen = shouldListen(message);
-  let reply = shouldReply(message);
+const messageEventHandler = async (message: Message): Promise<void> => {
+  let listen: boolean = shouldListen(message);
+  let reply: boolean = shouldReply(message);
+  let isChat: boolean = isChatModel(message.channelId);
 
   if (listen) {
     console.log("Message(processing):", message.content.trim());
-    await messageListen(message);
+    if (isChat) await listenChatMessage(message);
   }
 
   if (listen && reply) {
-    await messageCreate(message).then((result: any) => {
-      if (result) {
-        message.channel.send(result.toString());
-      } else {
-        message.channel.send(`error occurs`);
-      }
-    });
+    if (isChat) {
+      await createChatMessage(message).then((result: any) => {
+        if (result) {
+          message.channel.send(result.toString());
+        } else {
+          message.channel.send(`error occurs`);
+        }
+      });
+    } else {
+      await createMessage(message).then((result: any) => {
+        if (result) {
+          message.channel.send(result.toString());
+        } else {
+          message.channel.send(`error occurs`);
+        }
+      });
+    }
   }
 };
+
+const isChatModel = (channelId: string): boolean => {
+  let chSetting = channelSetting[channelId];
+  let chatModels = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301'];
+  return (chatModels.includes(chSetting.completionSetting.model)) ? true : false;
+}
 
 const shouldListen = (message: any): boolean => {
   let chSetting = channelSetting[message.channelId];
@@ -52,4 +69,4 @@ const shouldReply = (message: any): boolean => {
   return true;
 };
 
-export { messageEventHandler };
+export { messageEventHandler, isChatModel };

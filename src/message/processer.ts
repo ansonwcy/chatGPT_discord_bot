@@ -1,14 +1,13 @@
 import * as config from '../config/config.json';
-import { createChatCompletion } from '../openAI/chat';
+import { createChatCompletion, createCompletion } from '../openAI/chat';
 import { postprocesser, preprocesser, addNameTag, formatMsg, removeAllTags } from './pre-post-processer'
 import { setHistory, getHistory } from './history'
 import { Config } from '../type'
 import { Message } from 'discord.js'
 
-const clientId = (config as Config).clientId;
 const channelSetting = (config as Config).channelSetting;
 
-const messageListen = async (newMessage: Message): Promise<boolean> => {
+const listenChatMessage = async (newMessage: Message): Promise<boolean> => {
 
     let chId = newMessage.channelId;
 
@@ -25,7 +24,7 @@ const messageListen = async (newMessage: Message): Promise<boolean> => {
     return await setHistory(history, chId, false)
 }
 
-const messageCreate = async (message: Message): Promise<string | undefined> => {
+const createChatMessage = async (message: Message): Promise<string | undefined> => {
 
     let chId = message.channelId;
     let completionSetting = channelSetting[chId]['completionSetting'];
@@ -57,7 +56,7 @@ const messageCreate = async (message: Message): Promise<string | undefined> => {
                     return reply
 
             } else {
-                console.log(`error occurs in messageCreate`)
+                console.log(`error occurs in createChatMessage`)
             }
         })
     }
@@ -67,4 +66,31 @@ const messageCreate = async (message: Message): Promise<string | undefined> => {
     }
 }
 
-export { messageListen, messageCreate }
+const createMessage = async (message: Message): Promise<string | undefined> => {
+
+    let chId = message.channelId;
+    let completionSetting = channelSetting[chId]['completionSetting'];
+
+    // generate reply
+    let completion = await createCompletion(message.content.trim(), completionSetting);
+
+    // create completion sucessfully
+    if (completion[0]) {
+
+        // do post-process on the reply
+        let reply = postprocesser(completion[1]);
+
+        // add name tag of the user who sent message
+        // send message to discord channel
+        if (channelSetting[chId]['replyWithTag'])
+            return addNameTag(reply, message.author.id);
+        else
+            return reply
+    }
+    // fail to create completion
+    else {
+        return `System: ${completion[1]}`;
+    }
+}
+
+export { listenChatMessage, createChatMessage, createMessage }

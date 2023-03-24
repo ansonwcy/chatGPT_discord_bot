@@ -6,7 +6,7 @@
 
 # How to use:
 
-## 1. Tag the chatbot and type your message
+
 
 <br />
 
@@ -28,7 +28,7 @@ npm i
 
 <br />
 
-## Step 3. Create config files (if first time to run)
+## (Step 3). Create config files (if first time to run)
 
 ```
 npm run config
@@ -40,23 +40,23 @@ npm run config
 1. `src/config/bot.yml`
 2. `src/config/config.json`
 
+### Note that
+- For the model name, please refer to [OpenAI doc](https://platform.openai.com/docs/models/overview).
+- Only `gpt-3.5-turbo` and `gpt-3.5-turbo-0301` suppose chat completion.
+- Other models can be used in this chatbot, but it is not recommended.
+- Set `bot` and `chatHistoryMaxLength` to `null` if it is chat model.
+
 <br />
 
-## Step 5. Build the project
-```
-npm run build
-```
 
-<br />
-
-## Step 6. Run the project
+## Step 5. Build and run the project
 ```
 npm start
 ```
 
 <br />
 
-## (Step 7). Store the chat history after terminating the server if need
+## (Step 6). Store the chat history after terminating the server if need
 ```
 npm run store
 ```

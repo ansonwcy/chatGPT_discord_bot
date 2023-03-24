@@ -1,10 +1,12 @@
-import { Config, ChatHistory, ChatHistoryContent } from '../type'
+import { ChatHistoryContent } from '../type'
 
 const postprocesser = (msg: any): string => {
+    // Todo
     return msg.trim();
 }
 
 const preprocesser = (history: any[]): ChatHistoryContent[] => {
+    // Todo
     return history;
 };
 

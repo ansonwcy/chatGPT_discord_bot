@@ -7,7 +7,7 @@
     "botName": "Bot",
     "channelSetting": {
         "channel-id-1": {
-            "channelNameForRef": "general",
+            "channelNameForRef": "channel-1",
             "chatHistoryMaxLength": 1500,
             "onlyListenTagMessage": true,
             "onlyReplyTagMessage": true,
@@ -23,16 +23,32 @@
             }
         },
         "channel-id-2": {
-            "channelNameForRef": "code",
+            "channelNameForRef": "channel-2",
             "chatHistoryMaxLength": 1500,
             "onlyListenTagMessage": false,
             "onlyReplyTagMessage": false,
             "replyWithTag": false,
-            "bot": "code_assistant",
+            "bot": "assistant",
             "completionSetting": {
-                "model": "gpt-3.5-turbo-0301",
+                "model": "gpt-3.5-turbo",
                 "temperature": 0.6,
                 "max_tokens": 500,
+                "top_p": 1,
+                "frequency_penalty": 0.6,
+                "presence_penalty": 0.6
+            }
+        },
+        "channel-id-3": {
+            "channelNameForRef": "channel-3",
+            "chatHistoryMaxLength": null,
+            "onlyListenTagMessage": false,
+            "onlyReplyTagMessage": false,
+            "replyWithTag": false,
+            "bot": null,
+            "completionSetting": {
+                "model": "curie",
+                "temperature": 0.6,
+                "max_tokens": 100,
                 "top_p": 1,
                 "frequency_penalty": 0.6,
                 "presence_penalty": 0.6

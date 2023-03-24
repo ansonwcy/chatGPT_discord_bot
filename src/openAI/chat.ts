@@ -21,10 +21,29 @@ async function createChatCompletion(history: any, completionSetting: ChatComplet
     });
 
     return [true, response.data.choices[0].message!.content];
-  } catch(e) {
+  } catch (e) {
     console.log(`error occurs in createChatCompletion: ${e}`);
     return [false, `${e}`];
   }
 }
 
-export { createChatCompletion };
+async function createCompletion(message: any, completionSetting: ChatCompletion): Promise<[boolean, string]> {
+  try {
+    const response = await openai.createCompletion({
+      model: completionSetting['model'],
+      prompt: message,
+      temperature: completionSetting['temperature'],
+      max_tokens: completionSetting['max_tokens'],
+      top_p: completionSetting['top_p'],
+      frequency_penalty: completionSetting['frequency_penalty'],
+      presence_penalty: completionSetting['presence_penalty'],
+    });
+
+    return [true, response.data.choices[0].text!];
+  } catch (e) {
+    console.log(`error occurs in createChatCompletion: ${e}`);
+    return [false, `${e}`];
+  }
+}
+
+export { createChatCompletion, createCompletion };
