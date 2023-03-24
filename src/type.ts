@@ -22,6 +22,8 @@ export interface Config {
     clientId: string;
     guildId: string;
     openAIKey: string;
+    creator: string;
+    botName: string;
     channelSetting: Record<string, ChannelSettings>;
 }
 

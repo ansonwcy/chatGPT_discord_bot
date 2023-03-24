@@ -18,7 +18,7 @@
   },
   "scripts": {
     "config": "node ./tools/config.js",
-    "build": "tsc && copy .\\src\\config\\bot.yml .\\dist\\src\\config\\bot.yml",
+    "build": "rmdir /s .\\dist && tsc && copy .\\src\\config\\bot.yml .\\dist\\src\\config\\bot.yml",
     "start": "node ./dist/src/deploy-commands.js && node ./dist/src/index.js",
     "store": "copy .\\dist\\src\\data\\chatHistory.json .\\src\\data\\chatHistory.json"
   }

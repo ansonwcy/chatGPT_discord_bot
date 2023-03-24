@@ -1,6 +1,6 @@
 # Introduction:
 
-## This is a ChatGPT discord chatbot project using openAI and discord API.
+## This is a ChatGPT discord chatbot.
 
 <br />
 
