@@ -12,7 +12,6 @@ const channelSetting = (config as Config).channelSetting;
 const setHistory = async (history: any, channelId: string, isReset: boolean): Promise<boolean> => {
 
     if (isChatModel(channelId)) {
-
         return new Promise((resolve, reject) => {
             try {
                 if (history) {

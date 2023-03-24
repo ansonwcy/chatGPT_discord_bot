@@ -6,7 +6,14 @@
 
 # How to use:
 
+## Act as code assistant:
+![Image 3](images/image3.png)
 
+## Act as a linux terminal:
+![Image 2](images/image2.png)
+
+## Act as an etymologist:
+![Image 1](images/image1.png)
 
 <br />
 
@@ -63,7 +70,9 @@ npm run store
 
 ## Todo:
 
-1. Create DB to store message.
+1. Support stream request.
 
-2. Voice chat. Includes text to voice and voice to text.
+2. Create DB to store message.
+
+3. Voice chat. Includes text to voice and voice to text.
 

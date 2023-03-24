@@ -44,8 +44,11 @@ const isChatModel = (channelId: string): boolean => {
   return (chatModels.includes(chSetting.completionSetting.model)) ? true : false;
 }
 
-const shouldListen = (message: any): boolean => {
+const shouldListen = (message: Message): boolean => {
   let chSetting = channelSetting[message.channelId];
+
+  // Ignore empty messages
+  if (message.content.trim() == "") return false;
 
   // Ignore messages sent by the bot
   if (message.author.bot) return false;
@@ -58,8 +61,11 @@ const shouldListen = (message: any): boolean => {
   return true;
 };
 
-const shouldReply = (message: any): boolean => {
+const shouldReply = (message: Message): boolean => {
   let chSetting = channelSetting[message.channelId];
+
+  // Ignore empty messages
+  if (message.content.trim() == "") return false;
 
   // Ignore messages sent in the channel with no config
   if (!channelSetting[message.channelId]) return false;
