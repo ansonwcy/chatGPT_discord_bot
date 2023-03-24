@@ -1,7 +1,7 @@
 import { listenChatMessage, createChatMessage, createMessage } from './processer';
 import * as config from '../config/config.json';
 import { Config } from '../type'
-import { Message } from 'discord.js'
+import { Message, TextChannel, VoiceChannel } from 'discord.js'
 
 const channelSetting = (config as Config).channelSetting;
 const clientId = (config as Config).clientId;
@@ -21,7 +21,7 @@ const messageEventHandler = async (message: Message): Promise<void> => {
     if (isChat) {
       await createChatMessage(message).then((result: any) => {
         if (result) {
-          message.channel.send(result.toString());
+          sendMessageByChunks(result, message.channel as TextChannel);
         } else {
           message.channel.send(`error occurs`);
         }
@@ -29,7 +29,7 @@ const messageEventHandler = async (message: Message): Promise<void> => {
     } else {
       await createMessage(message).then((result: any) => {
         if (result) {
-          message.channel.send(result.toString());
+          sendMessageByChunks(result, message.channel as TextChannel);
         } else {
           message.channel.send(`error occurs`);
         }
@@ -37,6 +37,17 @@ const messageEventHandler = async (message: Message): Promise<void> => {
     }
   }
 };
+
+// support more types of channel
+const sendMessageByChunks = (singleMessage: string, channel: TextChannel): void => {
+  const discordMaxLength = 2000;
+  let splitMessage: string[] = [];
+
+  splitMessage = splitString(singleMessage, discordMaxLength);
+  splitMessage.forEach((msg) => {
+    channel.send(msg.toString());
+  })
+}
 
 const isChatModel = (channelId: string): boolean => {
   let chSetting = channelSetting[channelId];
@@ -74,5 +85,18 @@ const shouldReply = (message: Message): boolean => {
 
   return true;
 };
+
+const splitString = (str: string, maxLength: number): string[] => {
+  if (str.length <= maxLength) {
+    return [str];
+  }
+
+  const chunks: string[] = [];
+  for (let i = 0; i < str.length; i += maxLength) {
+    chunks.push(str.slice(i, i + maxLength));
+  }
+
+  return chunks;
+}
 
 export { messageEventHandler, isChatModel };

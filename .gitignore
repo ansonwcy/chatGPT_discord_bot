@@ -4,3 +4,4 @@ chatHistory.json
 bot.yml
 deploy.md
 dist
+test.ts
