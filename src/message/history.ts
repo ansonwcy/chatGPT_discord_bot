@@ -3,12 +3,12 @@ import * as yaml from 'js-yaml';
 import * as path from 'path';
 import * as chatHistory from '../data/chatHistory.json';
 import * as config from '../config/config.json';
-import { Config, ChatHistory } from '../type'
+import { Config, ChatHistory, ChatHistoryContent } from '../type'
 import { formatMsg } from './pre-post-processer'
 
 const channelSetting = (config as Config).channelSetting;
 
-const setHistory = async (history: any, channelId: string, isReset: boolean) => {
+const setHistory = async (history: any, channelId: string, isReset: boolean): Promise<boolean> => {
     return new Promise((resolve, reject) => {
         try {
             if (history) {
@@ -16,13 +16,13 @@ const setHistory = async (history: any, channelId: string, isReset: boolean) => 
                 history = shortenMessage(history, maxLength);
             }
 
-            let data= chatHistory as ChatHistory;
+            let data = chatHistory as ChatHistory;
 
             if (data[channelId] && !isReset) {
                 data[channelId] = history;
             } else {
                 let yamlData: Record<string, any>;
-                let systemMsg : { role: string; content: string; };
+                let systemMsg: { role: string; content: string; };
                 try {
                     yamlData = yaml.load(fs.readFileSync(path.join(__dirname, '../config/bot.yml'), 'utf8')) as Record<string, any>;
                     let bot_name = channelSetting[channelId]["bot"]
@@ -56,14 +56,14 @@ const setHistory = async (history: any, channelId: string, isReset: boolean) => 
     });
 }
 
-const getHistory = async (channelId: string) => {
+const getHistory = async (channelId: string): Promise<ChatHistoryContent[]> => {
     if (!(channelId in chatHistory)) {
         await resetMemory(channelId)
     }
     return (chatHistory as ChatHistory)[channelId];
 }
 
-const shortenMessage = (history: any[], maxLength: number) => {
+const shortenMessage = (history: any[], maxLength: number): ChatHistoryContent[] => {
     let _history = history
     while (getHistoryLength(_history) > maxLength) {
         _history.splice(1, 1);
@@ -71,11 +71,11 @@ const shortenMessage = (history: any[], maxLength: number) => {
     return _history;
 }
 
-const getHistoryLength = (history: any[]) => {
+const getHistoryLength = (history: any[]): number => {
     return history.reduce((acc, message) => acc + message.content.length, 0);
 }
 
-const resetMemory = async (channelId: string) => {
+const resetMemory = async (channelId: string): Promise<boolean> => {
     return await setHistory(undefined, channelId, true);
 }
 

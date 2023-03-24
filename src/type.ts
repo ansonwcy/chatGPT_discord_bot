@@ -26,8 +26,10 @@ export interface Config {
 }
 
 export type ChatHistory = {
-    [channelId: string]: {
-        role: string;
-        content: string;
-    }[];
+    [channelId: string]: ChatHistoryContent[];
+}
+
+export type ChatHistoryContent = {
+    role: string;
+    content: string;
 }

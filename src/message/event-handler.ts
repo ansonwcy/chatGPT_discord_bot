@@ -20,6 +20,8 @@ const messageEventHandler = async (message: any): Promise<void> => {
     await messageCreate(message).then((result: any) => {
       if (result) {
         message.channel.send(result.toString());
+      } else {
+        message.channel.send(`error occurs`);
       }
     });
   }

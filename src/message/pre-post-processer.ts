@@ -1,20 +1,22 @@
-const postprocesser = (msg: any) => {
+import { Config, ChatHistory, ChatHistoryContent } from '../type'
+
+const postprocesser = (msg: any): string => {
     return msg.trim();
 }
 
-const preprocesser = (history: any[]) => {
+const preprocesser = (history: any[]): ChatHistoryContent[] => {
     return history;
 };
 
-const addNameTag = (msg: string, userId: string) => {
+const addNameTag = (msg: string, userId: string): string => {
     return `<@${userId}> ${msg}`;
 }
 
-const formatMsg = (newMsg: string, role: string) : { role: string; content: string; }  => {
+const formatMsg = (newMsg: string, role: string): ChatHistoryContent => {
     return { "role": role, "content": newMsg.trim() }
 }
 
-const removeAllTags = (message: string) => {
+const removeAllTags = (message: string): string => {
     return message.replace(/<@\d+>/g, '');
 }
 

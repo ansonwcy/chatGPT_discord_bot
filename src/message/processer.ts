@@ -8,7 +8,7 @@ import { Message } from 'discord.js'
 const clientId = (config as Config).clientId;
 const channelSetting = (config as Config).channelSetting;
 
-const messageListen = async (newMessage: Message) => {
+const messageListen = async (newMessage: Message): Promise<boolean> => {
 
     let chId = newMessage.channelId;
 
@@ -25,7 +25,7 @@ const messageListen = async (newMessage: Message) => {
     return await setHistory(history, chId, false)
 }
 
-const messageCreate = async (message: Message) => {
+const messageCreate = async (message: Message): Promise<string | undefined> => {
 
     let chId = message.channelId;
     let completionSetting = channelSetting[chId]['completionSetting'];

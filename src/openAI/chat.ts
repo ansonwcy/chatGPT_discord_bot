@@ -8,7 +8,7 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-async function createChatCompletion(history: any, completionSetting: ChatCompletion) {
+async function createChatCompletion(history: any, completionSetting: ChatCompletion): Promise<[boolean, string]> {
   try {
     const response = await openai.createChatCompletion({
       model: completionSetting['model'],
@@ -23,7 +23,7 @@ async function createChatCompletion(history: any, completionSetting: ChatComplet
     return [true, response.data.choices[0].message!.content];
   } catch(e) {
     console.log(`error occurs in createChatCompletion: ${e}`);
-    return [false, e];
+    return [false, `${e}`];
   }
 }
 
