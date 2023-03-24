@@ -47,10 +47,11 @@ npm run config
 1. `src/config/bot.yml`
 2. `src/config/config.json`
 
-### Note that
+### Note
 - For the model name, please refer to [OpenAI doc](https://platform.openai.com/docs/models/overview).
 - Only `gpt-3.5-turbo` and `gpt-3.5-turbo-0301` suppose chat completion.
 - Other models can be used in this chatbot, but it is not recommended.
+- Set `chatHistoryMaxLength` smaller than 2000 due to openAI API limitation.
 - Set `bot` and `chatHistoryMaxLength` to `null` if it is chat model.
 
 <br />
