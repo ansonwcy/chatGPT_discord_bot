@@ -28,27 +28,31 @@ npm i
 
 <br />
 
-## Step 3. Run prestart script to create necessary files (if first time to run)
+## Step 3. Create config files (if first time to run)
 
 ```
-npm run prestart
+npm run config
 ```
 
 <br />
 
 ## Step 4. Modify the files below
-1. `config/bot.yml`
-2. `config/config.json`
+1. `src/config/bot.yml`
+2. `src/config/config.json`
 
 <br />
 
-## Deploy commands and start server
+## Step 5. Build the project
+```
+npm run build
+```
 
+<br />
+
+## Step 6. Run the project
 ```
 npm start
 ```
-
-<br />
 
 ## Todo:
 

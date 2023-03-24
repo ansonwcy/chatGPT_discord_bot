@@ -1,12 +1,12 @@
-const { SlashCommandBuilder } = require('discord.js');
-const { resetMemory } = require('../message/history.js')
+import { SlashCommandBuilder, CommandInteraction } from 'discord.js';
+import { resetMemory } from '../message/history';
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('reset')
 		.setDescription('Reset me!'),
-	async execute(interaction) {
-        await resetMemory(interaction.channelId).then(async (result) => {
+	async execute(interaction: CommandInteraction) {
+        await resetMemory(interaction.channelId).then(async result => {
             if (result) {
                 await interaction.reply(`\`\`\`Memory reset!\`\`\``);
             } else {

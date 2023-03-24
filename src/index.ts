@@ -1,12 +1,19 @@
 // Require the necessary discord.js classes
-const fs = require('node:fs');
-const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-const { token } = require('./config/config.json');
-const { messageEventHandler } = require('./message/event-handler.js')
+import * as fs from 'fs';
+import * as path from 'path';
+import { Client, Collection, Events, GatewayIntentBits, Partials } from 'discord.js';
+import * as config from './config/config.json';
+import { messageEventHandler } from './message/event-handler';
+import { Config } from './type'
 
-const client = new Client({
-	partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+declare module "discord.js" {
+	export interface Client {
+		commands: Collection<unknown, any>
+	}
+}
+
+const client: Client = new Client({
+	partials: [Partials.Message, Partials.Channel, Partials.Reaction],
 	intents: [
 		GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent,
 		GatewayIntentBits.GuildVoiceStates
@@ -57,4 +64,4 @@ client.on('messageCreate', async message => {
 
 });
 
-client.login(token);
+client.login((config as Config).token);

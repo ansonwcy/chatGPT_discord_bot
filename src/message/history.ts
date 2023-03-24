@@ -1,11 +1,14 @@
-const fs = require('fs');
-const yaml = require('js-yaml');
-const path = require('path');
-const chatHistory = require('../data/chat_history.json');
-const { channelSetting } = require('../config/config.json');
-const { formatMsg } = require('./pre-post-processer.js')
+import * as fs from 'fs';
+import * as yaml from 'js-yaml';
+import * as path from 'path';
+import * as chatHistory from '../data/chatHistory.json';
+import * as config from '../config/config.json';
+import { Config, ChatHistory } from '../type'
+import { formatMsg } from './pre-post-processer'
 
-const setHistory = async (history, channelId, isReset) => {
+const channelSetting = (config as Config).channelSetting;
+
+const setHistory = async (history: any, channelId: string, isReset: boolean) => {
     return new Promise((resolve, reject) => {
         try {
             if (history) {
@@ -13,24 +16,24 @@ const setHistory = async (history, channelId, isReset) => {
                 history = shortenMessage(history, maxLength);
             }
 
-            let data = chatHistory;
+            let data= chatHistory as ChatHistory;
 
             if (data[channelId] && !isReset) {
                 data[channelId] = history;
             } else {
-                let yamlData, systemMsg;
+                let yamlData: Record<string, any>;
+                let systemMsg : { role: string; content: string; };
                 try {
-                    yamlData = yaml.load(fs.readFileSync(path.join(__dirname, '../config/bot.yml'), 'utf8'));
+                    yamlData = yaml.load(fs.readFileSync(path.join(__dirname, '../config/bot.yml'), 'utf8')) as Record<string, any>;
                     let bot_name = channelSetting[channelId]["bot"]
                     systemMsg = formatMsg(yamlData[bot_name], "system");
+                    if (isReset) {
+                        data[channelId] = [systemMsg];
+                    } else {
+                        data[channelId] = [systemMsg, ...history];
+                    }
                 } catch (err) {
                     console.log(`Error occurred when reading yaml file: ${err}`);
-                }
-
-                if (isReset) {
-                    data[channelId] = [systemMsg];
-                } else {
-                    data[channelId] = [systemMsg, ...history];
                 }
             }
 
@@ -39,7 +42,7 @@ const setHistory = async (history, channelId, isReset) => {
 
             // Write the updated JSON string back to the file
             resolve(new Promise((resolve, reject) => {
-                fs.writeFile(path.join(__dirname, '../data/chat_history.json'), updatedData, 'utf8', (err) => {
+                fs.writeFile(path.join(__dirname + "/../data/chatHistory.json"), updatedData, 'utf8', (err) => {
                     if (err) {
                         reject(err);
                     } else {
@@ -53,14 +56,14 @@ const setHistory = async (history, channelId, isReset) => {
     });
 }
 
-const getHistory = async (channelId) => {
-    if (!chatHistory[channelId]) {
+const getHistory = async (channelId: string) => {
+    if (!(channelId in chatHistory)) {
         await resetMemory(channelId)
     }
-    return chatHistory[channelId];
+    return (chatHistory as ChatHistory)[channelId];
 }
 
-const shortenMessage = (history, maxLength) => {
+const shortenMessage = (history: any[], maxLength: number) => {
     let _history = history
     while (getHistoryLength(_history) > maxLength) {
         _history.splice(1, 1);
@@ -68,12 +71,12 @@ const shortenMessage = (history, maxLength) => {
     return _history;
 }
 
-const getHistoryLength = (history) => {
+const getHistoryLength = (history: any[]) => {
     return history.reduce((acc, message) => acc + message.content.length, 0);
 }
 
-const resetMemory = async (channelId) => {
+const resetMemory = async (channelId: string) => {
     return await setHistory(undefined, channelId, true);
 }
 
-module.exports = { setHistory, getHistory, resetMemory }
+export { setHistory, getHistory, resetMemory }

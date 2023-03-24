@@ -1,11 +1,14 @@
-const { clientId, channelSetting } = require('../config/config.json');
-const { createChatCompletion } = require('../openAI/chat.js');
-const { postprocesser, preprocesser, addNameTag, formatMsg, removeAllTags } = require('./pre-post-processer.js')
-const { setHistory, getHistory } = require('./history.js')
+import * as config from '../config/config.json';
+import { createChatCompletion } from '../openAI/chat';
+import { postprocesser, preprocesser, addNameTag, formatMsg, removeAllTags } from './pre-post-processer'
+import { setHistory, getHistory } from './history'
+import { Config } from '../type'
+import { Message } from 'discord.js'
 
-const botTag = `<@${clientId}>`;
+const clientId = (config as Config).clientId;
+const channelSetting = (config as Config).channelSetting;
 
-const messageListen = async (newMessage) => {
+const messageListen = async (newMessage: Message) => {
 
     let chId = newMessage.channelId;
 
@@ -22,7 +25,7 @@ const messageListen = async (newMessage) => {
     return await setHistory(history, chId, false)
 }
 
-const messageCreate = async (message) => {
+const messageCreate = async (message: Message) => {
 
     let chId = message.channelId;
     let completionSetting = channelSetting[chId]['completionSetting'];
@@ -43,7 +46,7 @@ const messageCreate = async (message) => {
         // record bot's reply
         history.push(formatMsg(reply, "assistant"));
 
-        return await setHistory(history, chId, false).then(async (result) => {
+        return await setHistory(history, chId, false).then(result => {
             if (result) {
 
                 // add name tag of the user who sent message
@@ -64,4 +67,4 @@ const messageCreate = async (message) => {
     }
 }
 
-module.exports = { messageListen, messageCreate }
+export { messageListen, messageCreate }

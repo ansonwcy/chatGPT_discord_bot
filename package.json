@@ -12,12 +12,13 @@
     "ytdl-core": "^4.11.2"
   },
   "devDependencies": {
+    "@types/js-yaml": "^4.0.5",
     "@types/node": "^18.15.5",
     "typescript": "^5.0.2"
   },
   "scripts": {
-    "prestart": "node ./src/prestart.js",
-    "build": "tsc",
-    "start": "node ./src/prestart.js && node ./src/deploy-commands.js && node ./src/index.js"
+    "config": "node config.js",
+    "build": "tsc && copy .\\src\\config\\bot.yml .\\dist\\src\\config\\bot.yml",
+    "start": "node ./dist/src/deploy-commands.js && node ./dist/src/index.js"
   }
 }

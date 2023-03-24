@@ -1,8 +1,8 @@
-const fs = require('fs');
+const fs = require('node:fs')
 
-const constDir = __dirname + '/constant'
-const dataDir = __dirname + '/data';
-const configDir = __dirname + '/config';
+const constDir = __dirname + '/src/constant'
+const dataDir = __dirname + '/src/data';
+const configDir = __dirname + '/src/config';
 
 // create data directory
 if (!fs.existsSync(dataDir)) {
@@ -10,8 +10,8 @@ if (!fs.existsSync(dataDir)) {
 }
 
 // create chat_history.json
-if (!fs.existsSync(dataDir + '/chat_history.json')) {
-    fs.writeFileSync(dataDir + '/chat_history.json', '{}');
+if (!fs.existsSync(dataDir + '/chatHistory.json')) {
+    fs.writeFileSync(dataDir + '/chatHistory.json', '{}');
 }
 
 // create config directory

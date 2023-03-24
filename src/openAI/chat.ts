@@ -1,13 +1,14 @@
-const { Configuration, OpenAIApi } = require("openai");
-const { openAIKey } = require('../config/config.json');
+import { Configuration, OpenAIApi } from "openai";
+import * as config from '../config/config.json';
+import { Config, ChatCompletion } from '../type'
 
 const configuration = new Configuration({
-  apiKey: openAIKey,
+  apiKey: (config as Config).openAIKey,
 });
 
 const openai = new OpenAIApi(configuration);
 
-async function createChatCompletion(history, completionSetting) {
+async function createChatCompletion(history: any, completionSetting: ChatCompletion) {
   try {
     const response = await openai.createChatCompletion({
       model: completionSetting['model'],
@@ -18,12 +19,12 @@ async function createChatCompletion(history, completionSetting) {
       frequency_penalty: completionSetting['frequency_penalty'],
       presence_penalty: completionSetting['presence_penalty'],
     });
-  
-    return [true, response.data.choices[0].message.content]
+
+    return [true, response.data.choices[0].message!.content];
   } catch(e) {
-    console.log(`error occurs in createChatCompletion: ${e}`)
+    console.log(`error occurs in createChatCompletion: ${e}`);
     return [false, e];
   }
 }
 
-module.exports = { createChatCompletion }
+export { createChatCompletion };
