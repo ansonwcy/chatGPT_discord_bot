@@ -9,15 +9,16 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 async function createChatCompletion(history: any, completionSetting: ChatCompletion): Promise<[boolean, string]> {
+  completionSetting = convertNullToUndefine(completionSetting);
   try {
     const response = await openai.createChatCompletion({
-      model: completionSetting['model'],
+      model: completionSetting.model,
       messages: history,
-      temperature: completionSetting['temperature'],
-      max_tokens: completionSetting['max_tokens'],
-      top_p: completionSetting['top_p'],
-      frequency_penalty: completionSetting['frequency_penalty'],
-      presence_penalty: completionSetting['presence_penalty'],
+      temperature: completionSetting.temperature,
+      max_tokens: completionSetting.max_tokens,
+      top_p: completionSetting.top_p,
+      frequency_penalty: completionSetting.frequency_penalty,
+      presence_penalty: completionSetting.presence_penalty,
     });
 
     return [true, response.data.choices[0].message!.content];
@@ -28,15 +29,16 @@ async function createChatCompletion(history: any, completionSetting: ChatComplet
 }
 
 async function createCompletion(message: any, completionSetting: ChatCompletion): Promise<[boolean, string]> {
+  completionSetting = convertNullToUndefine(completionSetting);
   try {
     const response = await openai.createCompletion({
-      model: completionSetting['model'],
+      model: completionSetting.model,
       prompt: message,
-      temperature: completionSetting['temperature'],
-      max_tokens: completionSetting['max_tokens'],
-      top_p: completionSetting['top_p'],
-      frequency_penalty: completionSetting['frequency_penalty'],
-      presence_penalty: completionSetting['presence_penalty'],
+      temperature: completionSetting.temperature,
+      max_tokens: completionSetting.max_tokens,
+      top_p: completionSetting.top_p,
+      frequency_penalty: completionSetting.frequency_penalty,
+      presence_penalty: completionSetting.presence_penalty,
     });
 
     return [true, response.data.choices[0].text!];
@@ -44,6 +46,16 @@ async function createCompletion(message: any, completionSetting: ChatCompletion)
     console.log(`error occurs in createChatCompletion: ${e}`);
     return [false, `${e}`];
   }
+}
+
+// workaround for null
+function convertNullToUndefine(obj: any): any {
+  for (let prop in obj) {
+    if (obj[prop] === null) {
+      obj[prop] = undefined;
+    }
+  }
+  return obj;
 }
 
 export { createChatCompletion, createCompletion };

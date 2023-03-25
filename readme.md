@@ -53,6 +53,7 @@ npm run config
 - Other models can be used in this chatbot, but it is not recommended.
 - Set `chatHistoryMaxLength` smaller than 2000 due to openAI API limitation.
 - Set `bot` and `chatHistoryMaxLength` to `null` if it is chat model.
+- For the detail setting, please refer to [OpenAI doc](https://platform.openai.com/docs/api-reference/parameter-details).
 
 <br />
 

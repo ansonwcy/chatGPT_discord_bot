@@ -1,10 +1,10 @@
 export interface ChatCompletion {
     model: string;
-    temperature: number;
+    temperature: number | null;
     max_tokens: number;
-    top_p: number;
-    frequency_penalty: number;
-    presence_penalty: number;
+    top_p: number | null;
+    frequency_penalty: number | null;
+    presence_penalty: number | null;
 }
 
 export interface ChannelSettings {
