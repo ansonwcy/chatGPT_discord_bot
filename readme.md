@@ -102,6 +102,12 @@ npm run store
 npm run store-linux
 ```
 
+<br />
+
+## License: MIT license
+
+<br />
+
 ## Todo:
 
 - Support stream request.
