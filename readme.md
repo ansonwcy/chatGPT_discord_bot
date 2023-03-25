@@ -6,28 +6,40 @@ This is a ChatGPT discord chatbot with bot role configuration.
 
 # How to use:
 
-Config the bots (details in step 4)
+1. Config the bots (details in step 4)
 
-Talk to them
+2. Talk to them or type commands
 
 Act as code assistant:
+
 ![Image 3](images/image3.png)
 
 Act as a linux terminal:
+
 ![Image 2](images/image2.png)
 
 Act as an etymologist:
+
 ![Image 1](images/image1.png)
+
+<br />
+
+# Bot Commands
+- `/intro` Show the which basic functions of the bot of current channel
+- `/reset` Clean the chat history of current channel (only available in chat model)
+- `/model-setting` Show the model setting of the bot of current channel
+- `/channel-setting` Show the channel setting of the bot of current channel
+- `/source-code` Show the the URL of this repo
 
 <br />
 
 # Start the project:
 
 ## Step 1. Prepare the keys & ids below
-1. OpenAI API key
-2. Discord API key
-3. Discord server id
-4. Discord bot client id
+- OpenAI API key
+- Discord API key
+- Discord server id
+- Discord bot client id
 
 <br />
 
