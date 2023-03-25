@@ -1,18 +1,22 @@
 # Introduction:
 
-## This is a ChatGPT discord chatbot.
+This is a ChatGPT discord chatbot with bot role configuration.
 
 <br />
 
 # How to use:
 
-## Act as code assistant:
+Config the bots (details in step 4)
+
+Talk to them
+
+Act as code assistant:
 ![Image 3](images/image3.png)
 
-## Act as a linux terminal:
+Act as a linux terminal:
 ![Image 2](images/image2.png)
 
-## Act as an etymologist:
+Act as an etymologist:
 ![Image 1](images/image1.png)
 
 <br />
@@ -43,7 +47,7 @@ npm run config
 
 <br />
 
-## Step 4. Modify the files below
+## Step 4. Modify the files below to config the role, personality, and function of bots in different channels.
 1. `src/config/bot.yml`
 2. `src/config/config.json`
 
@@ -59,15 +63,33 @@ npm run config
 
 
 ## Step 5. Build and run the project
+
+<br />
+
+#### For Windows
 ```
 npm start
+```
+
+#### For Linux
+```
+npm run start-linux
 ```
 
 <br />
 
 ## (Step 6). Store the chat history after terminating the server if need
+
+<br />
+
+#### For Windows
 ```
 npm run store
+```
+
+#### For Linux
+```
+npm run store-linux
 ```
 
 ## Todo:
