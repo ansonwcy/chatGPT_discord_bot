@@ -2,13 +2,11 @@
 
 This is a ChatGPT discord chatbot with bot role configuration.
 
-<br />
-
 # How to use:
 
-1. Config the bots (details in step 4)
+- Config the bots (details in step 4)
 
-2. Talk to them or type commands
+- Talk to them or type commands
 
 Act as code assistant:
 
@@ -60,15 +58,15 @@ npm run config
 <br />
 
 ## Step 4. Modify the files below to config the role, personality, and function of bots in different channels.
-1. `src/config/bot.yml`
-2. `src/config/config.json`
+- `src/config/bot.yml`
+- `src/config/config.json`
 
 ### Note
 - For the model name, please refer to [OpenAI doc](https://platform.openai.com/docs/models/overview).
 - Only `gpt-3.5-turbo` and `gpt-3.5-turbo-0301` suppose chat completion.
 - Other models can be used in this chatbot, but it is not recommended.
 - Set `chatHistoryMaxLength` smaller than 2000 due to openAI API limitation.
-- Set `bot` and `chatHistoryMaxLength` to `null` if it is chat model.
+- Set `bot` and `chatHistoryMaxLength` to `null` if it is NOT chat model.
 - For the detail setting, please refer to [OpenAI doc](https://platform.openai.com/docs/api-reference/parameter-details).
 
 <br />
@@ -106,9 +104,9 @@ npm run store-linux
 
 ## Todo:
 
-1. Support stream request.
+- Support stream request.
 
-2. Create DB to store message.
+- Create DB to store message.
 
-3. Voice chat. Includes text to voice and voice to text.
+- Voice chat. Includes text to voice and voice to text.
 

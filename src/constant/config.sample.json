@@ -3,7 +3,7 @@
     "clientId": "bot-id",
     "guildId": "discord-server-id",
     "openAIKey": "open-ai-key",
-    "creator": "ansonwcy",
+    "creator": "-",
     "botName": "Bot",
     "channelSetting": {
         "channel-id-1": {
