@@ -1,15 +1,14 @@
 import { REST, Routes } from 'discord.js';
-import * as cfg from './config/config.json';
 import * as fs from 'fs';
 import * as path from 'path';
-import { Config } from './type'
+import { getConfig } from './utils/readConfig';
 
-const config = cfg as Config;
+const config = getConfig();
 
 interface CommandData {
-	name: string;
-	description: string;
-	options?: any[];
+    name: string;
+    description: string;
+    options?: any[];
 }
 
 const commands: CommandData[] = [];

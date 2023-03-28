@@ -1,11 +1,9 @@
 import { listenChatMessage, createChatMessage, createMessage } from './processer';
-import * as config from '../config/config.json';
-import { Config } from '../type'
-import { Message, TextChannel, VoiceChannel } from 'discord.js'
+import { Message, TextChannel } from 'discord.js';
+import { getConfig, getChannelSetting } from './readConfig';
 
-const channelSetting = (config as Config).channelSetting;
-const clientId = (config as Config).clientId;
-const botTag = `<@${clientId}>`;
+const config = getConfig();
+const botTag = `<@${config.clientId}>`;
 
 const messageEventHandler = async (message: Message): Promise<void> => {
   let listen: boolean = shouldListen(message);
@@ -50,13 +48,13 @@ const sendMessageByChunks = (singleMessage: string, channel: TextChannel): void 
 }
 
 const isChatModel = (channelId: string): boolean => {
-  let chSetting = channelSetting[channelId];
+  let chSetting = getChannelSetting(channelId);
   let chatModels = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301'];
   return (chatModels.includes(chSetting.completionSetting.model)) ? true : false;
 }
 
 const shouldListen = (message: Message): boolean => {
-  let chSetting = channelSetting[message.channelId];
+  let chSetting = getChannelSetting(message.channelId);
 
   // Ignore empty messages
   if (message.content.trim() == "") return false;
@@ -65,7 +63,7 @@ const shouldListen = (message: Message): boolean => {
   if (message.author.bot) return false;
 
   // Ignore messages sent in the channel with no config
-  if (!channelSetting[message.channelId]) return false;
+  if (!getChannelSetting(message.channelId)) return false;
 
   if (chSetting['onlyListenTagMessage'] && !message.content.startsWith(botTag)) return false;
 
@@ -73,13 +71,13 @@ const shouldListen = (message: Message): boolean => {
 };
 
 const shouldReply = (message: Message): boolean => {
-  let chSetting = channelSetting[message.channelId];
+  let chSetting = getChannelSetting(message.channelId);
 
   // Ignore empty messages
   if (message.content.trim() == "") return false;
 
   // Ignore messages sent in the channel with no config
-  if (!channelSetting[message.channelId]) return false;
+  if (!getChannelSetting(message.channelId)) return false;
 
   if (chSetting['onlyReplyTagMessage'] && !message.content.startsWith(botTag)) return false;
 

@@ -1,8 +1,7 @@
 import { SlashCommandBuilder, CommandInteraction, ChannelType, TextChannel, VoiceChannel } from 'discord.js';
-import * as config from '../config/config.json';
-import { Config } from '../type'
+import { getConfig, getChannelSetting, getAllChannelSetting } from '../utils/readConfig';
 
-const channelSetting = (config as Config).channelSetting;
+const config = getConfig();
 
 const getChannelName = async (id: string, interaction: CommandInteraction): Promise<string | undefined> => {
 	const channel = await interaction.client.channels.fetch(id);
@@ -23,18 +22,19 @@ module.exports = {
 		.setDescription('I will introduce myself!'),
 	async execute(interaction: CommandInteraction) {
 
-		const keys = Object.keys(channelSetting);
+		const keys = Object.keys(getAllChannelSetting());
 		const channelNames = await Promise.all(keys.map(async (id) => {
 			return getChannelName(id, interaction);
 		}));
 
+		const channel = getChannelSetting(interaction.channelId);
 		const channelNamesStr = channelNames.join(', ')
 		const currentChannelName = await getChannelName(interaction.channelId, interaction);
-		const modelName = channelSetting[interaction.channelId]['completionSetting']['model'];
-		let listenTagOnly = (channelSetting[interaction.channelId]['onlyListenTagMessage']) ? "messages which tagged me" : "all message";
-		let replyTagOnly = (channelSetting[interaction.channelId]['onlyReplyTagMessage']) ? "messages which tagged me" : "all message";
+		const modelName = channel.completionSetting.model;
+		let listenTagOnly = (channel.onlyListenTagMessage) ? "messages which tagged me" : "all message";
+		let replyTagOnly = (channel.onlyReplyTagMessage) ? "messages which tagged me" : "all message";
 
-		let txt1 = `Hi, I am ${(config as Config).botName} created by ${(config as Config).creator} using ${modelName}.`;
+		let txt1 = `Hi, I am ${config.botName} created by ${config.creator} using ${modelName}.`;
 		let txt2 = `I am listening on these channel(s):\n${channelNamesStr}`;
 		let txt3 = `In this current channel (${currentChannelName}):`;
 		let txt4 = `1. I will listen on ${listenTagOnly}.`;

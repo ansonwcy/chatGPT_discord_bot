@@ -24,7 +24,7 @@ export interface Config {
     openAIKey: string;
     creator: string;
     botName: string;
-    channelSetting: Record<string, ChannelSettings>;
+    // channelSetting: Record<string, ChannelSettings>;
 }
 
 export type ChatHistory = {

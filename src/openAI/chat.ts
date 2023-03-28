@@ -1,9 +1,9 @@
 import { Configuration, OpenAIApi } from "openai";
-import * as config from '../config/config.json';
-import { Config, ChatCompletion } from '../type'
+import { ChatCompletion } from '../type'
+import { getConfig } from '../utils/readConfig';
 
 const configuration = new Configuration({
-  apiKey: (config as Config).openAIKey,
+  apiKey: getConfig().openAIKey,
 });
 
 const openai = new OpenAIApi(configuration);

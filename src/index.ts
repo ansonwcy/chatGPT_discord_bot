@@ -2,9 +2,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { Client, Collection, Events, GatewayIntentBits, Partials } from 'discord.js';
-import * as config from './config/config.json';
-import { messageEventHandler } from './message/event-handler';
-import { Config } from './type'
+import { messageEventHandler } from './utils/event-handler';
+import { getConfig } from './utils/readConfig';
 
 declare module "discord.js" {
 	export interface Client {
@@ -64,4 +63,4 @@ client.on('messageCreate', async message => {
 
 });
 
-client.login((config as Config).token);
+client.login(getConfig().token);

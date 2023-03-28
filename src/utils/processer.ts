@@ -1,11 +1,8 @@
-import * as config from '../config/config.json';
 import { createChatCompletion, createCompletion } from '../openAI/chat';
-import { postprocesser, preprocesser, addNameTag, formatMsg, removeAllTags } from './pre-post-processer'
-import { setHistory, getHistory } from './history'
-import { Config } from '../type'
-import { Message } from 'discord.js'
-
-const channelSetting = (config as Config).channelSetting;
+import { postprocesser, preprocesser, addNameTag, formatMsg, removeAllTags } from './pre-post-processer';
+import { setHistory, getHistory } from './history';
+import { Message } from 'discord.js';
+import { getChannelSetting } from './readConfig';
 
 const listenChatMessage = async (newMessage: Message): Promise<boolean> => {
 
@@ -27,7 +24,7 @@ const listenChatMessage = async (newMessage: Message): Promise<boolean> => {
 const createChatMessage = async (message: Message): Promise<string | undefined> => {
 
     let chId = message.channelId;
-    let completionSetting = channelSetting[chId]['completionSetting'];
+    let completionSetting = getChannelSetting(chId).completionSetting;
     let history = await getHistory(chId);
 
     // do pre-process on the prompt
@@ -50,7 +47,7 @@ const createChatMessage = async (message: Message): Promise<string | undefined> 
 
                 // add name tag of the user who sent message
                 // send message to discord channel
-                if (channelSetting[chId]['replyWithTag'])
+                if (getChannelSetting(chId).replyWithTag)
                     return addNameTag(reply, message.author.id);
                 else
                     return reply
@@ -69,7 +66,7 @@ const createChatMessage = async (message: Message): Promise<string | undefined> 
 const createMessage = async (message: Message): Promise<string | undefined> => {
 
     let chId = message.channelId;
-    let completionSetting = channelSetting[chId]['completionSetting'];
+    let completionSetting = getChannelSetting(chId).completionSetting;
 
     // generate reply
     let completion = await createCompletion(message.content.trim(), completionSetting);
@@ -82,7 +79,7 @@ const createMessage = async (message: Message): Promise<string | undefined> => {
 
         // add name tag of the user who sent message
         // send message to discord channel
-        if (channelSetting[chId]['replyWithTag'])
+        if (getChannelSetting(chId).replyWithTag)
             return addNameTag(reply, message.author.id);
         else
             return reply

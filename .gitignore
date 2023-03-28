@@ -5,3 +5,4 @@ bot.yml
 deploy.md
 dist
 test.ts
+package-lock.json

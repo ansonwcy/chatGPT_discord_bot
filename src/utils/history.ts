@@ -2,12 +2,10 @@ import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import * as path from 'path';
 import * as chatHistory from '../data/chatHistory.json';
-import * as config from '../config/config.json';
-import { Config, ChatHistory, ChatHistoryContent } from '../type';
+import { ChatHistory, ChatHistoryContent } from '../type';
 import { formatMsg } from './pre-post-processer';
 import { isChatModel } from './event-handler';
-
-const channelSetting = (config as Config).channelSetting;
+import { getChannelSetting } from './readConfig';
 
 const setHistory = async (history: any, channelId: string, isReset: boolean): Promise<boolean> => {
 
@@ -15,7 +13,7 @@ const setHistory = async (history: any, channelId: string, isReset: boolean): Pr
         return new Promise((resolve, reject) => {
             try {
                 if (history) {
-                    let maxLength = channelSetting[channelId]["chatHistoryMaxLength"];
+                    let maxLength = getChannelSetting(channelId).chatHistoryMaxLength;
                     history = shortenMessage(history, maxLength!);
                 }
 
@@ -28,7 +26,7 @@ const setHistory = async (history: any, channelId: string, isReset: boolean): Pr
                     let systemMsg: { role: string; content: string; };
                     try {
                         yamlData = yaml.load(fs.readFileSync(path.join(__dirname, '../config/bot.yml'), 'utf8')) as Record<string, any>;
-                        let bot_name = channelSetting[channelId]["bot"]
+                        let bot_name = getChannelSetting(channelId).bot
                         systemMsg = formatMsg(yamlData[bot_name!], "system");
                         if (isReset) {
                             data[channelId] = [systemMsg];

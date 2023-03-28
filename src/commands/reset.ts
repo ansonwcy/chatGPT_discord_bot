@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, CommandInteraction } from 'discord.js';
-import { resetMemory } from '../message/history';
-import { isChatModel } from '../message/event-handler'
+import { resetMemory } from '../utils/history';
+import { isChatModel } from '../utils/event-handler'
 
 module.exports = {
     data: new SlashCommandBuilder()
