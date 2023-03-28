@@ -1,14 +1,20 @@
 import { listenChatMessage, createChatMessage, createMessage } from './processer';
-import { Message, TextChannel } from 'discord.js';
-import { getConfig, getChannelSetting } from './readConfig';
+import { Message, TextChannel, CommandInteraction } from 'discord.js';
+import { getConfig, getChannelSetting, getAllChannelSetting } from './readConfig';
 
 const config = getConfig();
 const botTag = `<@${config.clientId}>`;
 
 const messageEventHandler = async (message: Message): Promise<void> => {
+
+  let inListenList: boolean = checkInListenChannel(message.channelId);
+
+  // Ignore messages sent in the channel with no config
+  if (!inListenList) return;
+
   let listen: boolean = shouldListen(message);
   let reply: boolean = shouldReply(message);
-  let isChat: boolean = isChatModel(message.channelId);
+  let isChat: boolean = isChatModel(message.channelId)
 
   if (listen) {
     console.log("Message(processing):", message.content.trim());
@@ -36,6 +42,39 @@ const messageEventHandler = async (message: Message): Promise<void> => {
   }
 };
 
+const commandEventHandler = async (interaction: CommandInteraction): Promise<void> => {
+
+  if (!interaction.channelId) {
+    await interaction.reply('Bot is not listening on this channel!');
+    return;
+  }
+  let inListenList: boolean = checkInListenChannel(interaction.channelId);
+
+  // Ignore interactions sent in the channel with no config
+  if (!inListenList) {
+    await interaction.reply('Bot is not listening on this channel!');
+    return;
+  }
+
+  if (!interaction.isChatInputCommand()) return;
+
+  const command = interaction.client.commands.get(interaction.commandName);
+  if (!command) {
+    console.error(`No command matching ${interaction.commandName} was found.`);
+    return;
+  }
+  try {
+    await command.execute(interaction);
+  } catch (error) {
+    console.error(error);
+    if (interaction.replied || interaction.deferred) {
+      await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+    } else {
+      await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+    }
+  }
+}
+
 // support more types of channel
 const sendMessageByChunks = (singleMessage: string, channel: TextChannel): void => {
   const discordMaxLength = 2000;
@@ -54,6 +93,7 @@ const isChatModel = (channelId: string): boolean => {
 }
 
 const shouldListen = (message: Message): boolean => {
+
   let chSetting = getChannelSetting(message.channelId);
 
   // Ignore empty messages
@@ -62,22 +102,17 @@ const shouldListen = (message: Message): boolean => {
   // Ignore messages sent by the bot
   if (message.author.bot) return false;
 
-  // Ignore messages sent in the channel with no config
-  if (!getChannelSetting(message.channelId)) return false;
-
   if (chSetting['onlyListenTagMessage'] && !message.content.startsWith(botTag)) return false;
 
   return true;
 };
 
 const shouldReply = (message: Message): boolean => {
+
   let chSetting = getChannelSetting(message.channelId);
 
   // Ignore empty messages
   if (message.content.trim() == "") return false;
-
-  // Ignore messages sent in the channel with no config
-  if (!getChannelSetting(message.channelId)) return false;
 
   if (chSetting['onlyReplyTagMessage'] && !message.content.startsWith(botTag)) return false;
 
@@ -97,4 +132,10 @@ const splitString = (str: string, maxLength: number): string[] => {
   return chunks;
 }
 
-export { messageEventHandler, isChatModel };
+const checkInListenChannel = (channelId: string): boolean => {
+  const keys = Object.keys(getAllChannelSetting());
+  if (keys.includes(channelId)) return true;
+  else return false;
+}
+
+export { messageEventHandler, commandEventHandler, isChatModel };

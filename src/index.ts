@@ -1,8 +1,8 @@
 // Require the necessary discord.js classes
 import * as fs from 'fs';
 import * as path from 'path';
-import { Client, Collection, Events, GatewayIntentBits, Partials } from 'discord.js';
-import { messageEventHandler } from './utils/event-handler';
+import { Client, Collection, Events, GatewayIntentBits, Partials, CommandInteraction } from 'discord.js';
+import { messageEventHandler, commandEventHandler } from './utils/event-handler';
 import { getConfig } from './utils/readConfig';
 
 declare module "discord.js" {
@@ -38,23 +38,8 @@ client.once(Events.ClientReady, async c => {
 });
 
 client.on(Events.InteractionCreate, async interaction => {
-	if (!interaction.isChatInputCommand()) return;
 
-	const command = interaction.client.commands.get(interaction.commandName);
-	if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
-		return;
-	}
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		if (interaction.replied || interaction.deferred) {
-			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
-		} else {
-			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-		}
-	}
+	await commandEventHandler(interaction as CommandInteraction);
 });
 
 client.on('messageCreate', async message => {

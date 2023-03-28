@@ -13,7 +13,6 @@ const getConfig = (): Config => {
 }
 
 const getChannelSetting = (channelId: string): ChannelSettings => {
-
     const channelSettingList = config['channelSetting'] as Record<string, ChannelSettings>;
     let selectedChannel = channelSettingList[channelId];
     const channelcompletionSetting = selectedChannel['completionSetting'] as ChatCompletion;
